@@ -3,6 +3,7 @@ package com.nikitina.springcourse.Project2Boot.controller;
 import com.nikitina.springcourse.Project2Boot.models.User;
 import com.nikitina.springcourse.Project2Boot.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,13 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
+
     private final UserService userService;
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/")
-    public String users(Model model) {
+    public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getUsers());
         return "users";
     }
@@ -55,7 +58,7 @@ public class UserController {
     }
 
     @PatchMapping("/edit")
-    public String update(@Valid User user, BindingResult bindingResult) {
+    public String updateUser(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "edit";
         } else {
